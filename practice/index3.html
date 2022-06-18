@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.7.2/prop-types.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    function Btn({ text, changeValue, fontSize }) {
+        console.log(text, "was rendered");
+        return (
+            <button
+                onClick={changeValue}
+                style={{
+                    backgroundColor: "tomato",
+                    color: "white",
+                    padding: "10px 20px",
+                    borderRadius: 10,
+                    border: 0,
+                    fontSize: fontSize,
+                }}
+            >
+                {text}
+            </button>
+        )
+    }
+
+    // 변경되지 않는 props 는 re-render 하지마!
+    // props가 한개라도 바뀌면 그 함수가 통으로 다시 렌더링되니까, 바뀔 필요없는건 re-render 하지말라는 것
+    const MemorizedBtn = React.memo(Btn);
+
+    function App() {
+        const [value, setValue] = React.useState("Save Changes");
+        const changeValue = () => setValue("Revert Changes");
+        return (
+            <div>
+                <MemorizedBtn text={value} changeValue={changeValue} fontSize={18} />
+                <MemorizedBtn text="Continue" fontSize={12} />
+            </div>
+        );
+    };
+
+    const root = document.getElementById('root');
+    ReactDOM.render(<App />, root);
+
+</script>
+
+</html>

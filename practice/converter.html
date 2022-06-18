@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    function MinutesToHours() {
+        const [amount, setAmount] = React.useState(0);
+        const [focused, setFocused] = React.useState(true);
+        const onChange = (event) => {
+            setAmount(event.target.value);
+        }
+        const reset = () => setAmount(0);
+        const onFocus = () => {
+            setFocused((current) => !current);
+            reset();
+        }
+        return (
+            <div>
+                <div>
+                    <label htmlFor="amount">Minutes</label>
+                    <input
+                        value={focused? amount : amount*60}
+                        id="minutes"
+                        placeholder="Minutes"
+                        type="number"
+                        onChange={onChange}
+                        disabled={!focused}
+                    />
+                    <label htmlFor="hours">Hours</label>
+                    <input 
+                    value={focused ? Math.floor(amount / 60): amount} id="hours" 
+                    placeholder="Hours" 
+                    type="number"
+                    onChange={onChange}
+                    disabled={focused}
+                    />
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFocus}>{ focused? 'Turn back' : 'Invert'}</button>
+                </div>
+            </div>
+        );
+    };
+
+    function KmToM() {
+        const [amount, setAmount] = React.useState();
+        const reset = () => {
+            setAmount(0);
+        }
+        const [focused, setFocused] = React.useState(true);
+        const onFocus = () => {
+            setFocused((current) => !current);
+        }
+
+        const onChange = (e) => {
+            setAmount(e.target.value);
+        }
+
+        return (
+        <div>
+            <h3>KM to M</h3>
+                <label htmlFor="amount">KM</label>
+                <input 
+                    value={focused? amount : amount/1000}
+                    onChange={onChange} 
+                    type="number" 
+                    placeholder="KM" 
+                    disabled={!focused}
+                />
+                <label htmlFor="hours">M</label>
+                <input 
+                    value={focused? amount * 1000 : amount} 
+                    onChange={onChange} 
+                    type="number" 
+                    placeholder="M"
+                    disabled={focused}
+                />
+                <button onClick={reset}>Reset</button>
+                <button onClick={onFocus}>{ focused? 'Turn back' : 'Invert'}</button>
+        </div>
+        )
+    }
+
+    function App() {
+        const [index, setIndex] = React.useState("xx");
+        const onSelect = (e) => {
+            setIndex(e.target.value);       
+        }
+        return (
+            <div>
+                <h1>Super Converter</h1>
+                <select value={index} onChange={onSelect}>
+                    <option value="xx">Select your units</option>
+                    <option value="0"> Minutes & Hours </option>
+                    <option value="1"> Km & M </option>
+                </select>
+                <hr />
+                {index ==="xx"? "Please select your units" : null}
+                {index === "0" ? <MinutesToHours /> : null}
+                {index === "1" ? <KmToM /> : null}
+            </div>
+        );
+    };
+
+    const root = document.getElementById('root');
+    ReactDOM.render(<App />, root);
+    // 여기서 렌더링 한번 일어남, 나머지는 그냥 함수일뿐
+
+</script>
+
+</html>

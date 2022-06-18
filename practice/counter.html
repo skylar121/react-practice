@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    const root = document.getElementById('root');
+    function App () {
+        const [counter, setcounter] = React.useState(0);
+        const onClick = () => {
+            setcounter((current) => current + 1);
+        };
+        return (
+            <div>
+                <h3>Total clicks: {counter}</h3>
+                <button onClick={onClick}>Click me
+                </button>
+            </div>
+        );
+    };
+        
+    ReactDOM.render(<App />, root);
+    // 여기서 렌더링 한번 일어남, 나머지는 그냥 함수일뿐
+
+</script>
+
+</html>
